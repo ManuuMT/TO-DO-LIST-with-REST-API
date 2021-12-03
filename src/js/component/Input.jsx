@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Item from "./Item.jsx";
+import TaskCounter from "./TaskCounter.jsx";
 
 const Input = props => {
 	// HOOKS
@@ -19,7 +20,7 @@ const Input = props => {
 		const header = {
 			method: "GET",
 			headers: {
-				"Content-Type": "application/json"
+				Accept: "application/json"
 			}
 		};
 
@@ -32,6 +33,7 @@ const Input = props => {
 			.catch(error => console.error(error));
 	};
 
+    // Every fetch method (except get)
 	const optimizedFetch = (fetchMethod, fetchBody) => {
 		const url = "https://assets.breatheco.de/apis/fake/todos/user/Emanuel";
 		const header = {
@@ -51,7 +53,6 @@ const Input = props => {
 	// Changes the value of the input
 	// and shows a console error when the input is empty
 	const validateInput = event => {
-		// Sets state with the value of the input
 		setInputValue(event.target.value);
 		if (event.target.value === "")
 			console.error("The input can't be empty");
@@ -59,18 +60,12 @@ const Input = props => {
 
 	// Adds a task on the list
 	const enterInput = event => {
-		// If you the that you press is ENTER and the input was not empty
 		if (event.keyCode == 13 && inputValue != "") {
-			// Copies the state
 			let myList = uList;
-			// Pushes the new task in the array
 			let myNewTask = { label: event.target.value, done: false };
 			myList.push(myNewTask);
-			// Adds the task in the state that contains the list
 			setList(myList);
-			// Sets the input value with an empty string
 			setInputValue("");
-			//
 			optimizedFetch("PUT", JSON.stringify(uList));
 		}
 	};
@@ -80,17 +75,14 @@ const Input = props => {
 		if (uList.length == 1) {
 			alert("You can not stay without tasks");
 		} else {
-			// Initializes an array bringing the uList state by spread
 			let newArray = [...uList];
-			// Deletes the task with splice method
 			newArray.splice(index, 1);
-			//
 			optimizedFetch("PUT", JSON.stringify(newArray));
-			// Updates the state that contains all the tasks
 			setList(newArray);
 		}
 	};
 
+    // Changes the state of the task (done or not done)
 	const changeCheck = index => {
 		let newArray = [...uList];
 		newArray[index].done
@@ -103,7 +95,7 @@ const Input = props => {
 	return (
 		<>
 			<div className="container">
-				<div className="title">TO DO List</div>
+				<div className="title">Emanuel`s TO DO List</div>
 				{/* Input */}
 				<input
 					className="row myInput"
@@ -124,11 +116,25 @@ const Input = props => {
 						changeMyCheck={e => changeCheck(i)}
 					/>
 				))}
+
 				{/* Tasks counter */}
-				<div className="row counter">
-					{uList.length > 0
-						? uList.length + " item left"
-						: "No tasks, add a task"}
+				<TaskCounter listState={uList} />
+
+				{/* Buttons */}
+				<div className="row my-3">
+					<div className="col">
+						<button
+							onClick={() => optimizedFetch("POST", "[]")}
+							className="btn btn-primary">
+							Create New List
+						</button>
+
+						<button
+							onClick={() => optimizedFetch("DELETE", null)}
+							className="btn btn-primary mx-2">
+							Delete All
+						</button>
+					</div>
 				</div>
 			</div>
 		</>
