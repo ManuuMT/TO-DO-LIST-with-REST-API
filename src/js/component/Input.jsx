@@ -6,13 +6,8 @@ import TaskCounter from "./TaskCounter.jsx";
 const Input = props => {
 	// HOOKS
 
-	// Use state with the value of my input
-	const [inputValue, setInputValue] = React.useState("");
-	// Use state with the list of tasks
-	const [uList, setList] = React.useState([]);
-
-	// Use effect that sets the list for the first and only time
-	useEffect(() => getFetch(), []);
+	const [inputValue, setInputValue] = useState("");
+	const [uList, setList] = useState([]);
 
 	//FUNCTIONS
 	const getFetch = () => {
@@ -24,6 +19,8 @@ const Input = props => {
 			}
 		};
 
+		// CREAR CAPA DE RED
+
 		fetch(url, header)
 			.then(res => res.json())
 			.then(data => {
@@ -33,7 +30,9 @@ const Input = props => {
 			.catch(error => console.error(error));
 	};
 
-    // Every fetch method (except get)
+	useEffect(() => getFetch(), []);
+
+	// Every fetch method (except get)
 	const optimizedFetch = (fetchMethod, fetchBody) => {
 		const url = "https://assets.breatheco.de/apis/fake/todos/user/Emanuel";
 		const header = {
@@ -51,7 +50,6 @@ const Input = props => {
 	};
 
 	// Changes the value of the input
-	// and shows a console error when the input is empty
 	const validateInput = event => {
 		setInputValue(event.target.value);
 		if (event.target.value === "")
@@ -62,8 +60,7 @@ const Input = props => {
 	const enterInput = event => {
 		if (event.keyCode == 13 && inputValue != "") {
 			let myList = uList;
-			let myNewTask = { label: event.target.value, done: false };
-			myList.push(myNewTask);
+			myList.push({ label: event.target.value, done: false });
 			setList(myList);
 			setInputValue("");
 			optimizedFetch("PUT", JSON.stringify(uList));
@@ -82,7 +79,7 @@ const Input = props => {
 		}
 	};
 
-    // Changes the state of the task (done or not done)
+	// Changes the state of the task (done or not done)
 	const changeCheck = index => {
 		let newArray = [...uList];
 		newArray[index].done
@@ -90,6 +87,16 @@ const Input = props => {
 			: (newArray[index].done = true);
 		setList(newArray);
 		optimizedFetch("PUT", JSON.stringify(newArray));
+	};
+
+	const deleteAll = () => {
+		let array = [...uList];
+		let newArray = array.filter(task => task.done == true);
+
+		if (newArray.length > 0) {
+			setList(newArray);
+			optimizedFetch("PUT", JSON.stringify(newArray));
+		} else alert("You must have at least 1 task done");
 	};
 
 	return (
@@ -124,15 +131,9 @@ const Input = props => {
 				<div className="row my-3">
 					<div className="col">
 						<button
-							onClick={() => optimizedFetch("POST", "[]")}
+							onClick={() => deleteAll()}
 							className="btn btn-primary">
-							Create New List
-						</button>
-
-						<button
-							onClick={() => optimizedFetch("DELETE", null)}
-							className="btn btn-primary mx-2">
-							Delete All
+							Delete done tasks
 						</button>
 					</div>
 				</div>
