@@ -2,6 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "bootstrap";
 import "../styles/index.scss";
-import Home from "./component/home.jsx";
+import Input from "./component/Input.jsx";
 
-ReactDOM.render(<Home />, document.querySelector("#app"));
+ReactDOM.render(<Input />, document.querySelector("#app"));

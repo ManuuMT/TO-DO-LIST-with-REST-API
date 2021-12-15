@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import Item from "./Item.jsx";
 import TaskCounter from "./TaskCounter.jsx";
 
-const Input = props => {
+const Input = () => {
 	// HOOKS
 
 	const [inputValue, setInputValue] = useState("");
@@ -110,7 +109,7 @@ const Input = props => {
 					onChange={validateInput}
 					value={inputValue}
 					onKeyDown={enterInput}
-					placeholder={props.myPlaceHolder}
+					placeholder="What needs to be done?"
 				/>
 
 				{/* List of tasks */}
@@ -140,10 +139,6 @@ const Input = props => {
 			</div>
 		</>
 	);
-};
-
-Input.propTypes = {
-	myPlaceHolder: PropTypes.string
 };
 
 export default Input;
