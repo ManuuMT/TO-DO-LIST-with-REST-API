@@ -18,8 +18,6 @@ const Input = () => {
 			}
 		};
 
-		// CREAR CAPA DE RED
-
 		fetch(url, header)
 			.then(res => res.json())
 			.then(data => {
