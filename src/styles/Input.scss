@@ -1,0 +1,32 @@
+/* Input */
+.title{
+    color: rgb(167, 161, 163);
+    margin-left: 120px;
+    font-size: 25px;
+}
+
+.myInput{
+    height: 50px;
+    font-size: 20px;
+    color: rgb(204,204,204);
+}
+
+.myInput:focus{
+    outline: none;
+    color: rgb(116, 111, 113);
+}
+
+/* Input and counter */
+.myInput, .counter{
+    border: none;
+    width: 500px;
+}
+
+/* Counter */
+.counter{
+    height: 25px;
+    font-size: 10px;
+    background-color: white;
+    color: rgb(156,156,156);
+    padding-left: 1%;
+}

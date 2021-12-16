@@ -1,0 +1,38 @@
+/* Task list */ 
+.taskList{
+    background-color: white;
+    border: none;
+    height: 50px;
+    width: 500px;
+}
+
+.task{
+    margin-left: 3%;
+    color: rgb(156,156,156);
+    font-size: 20px;
+
+}
+
+/* Trash icon */
+
+.icon{
+    display: none;
+    margin-left: 80%;
+}
+
+/* Check icon */
+.state {
+    height: 20px;
+    width: 20px;
+}
+.done {
+    color: green;
+}
+
+.not-done{
+    color: red;
+}
+
+.taskList:hover .icon{
+    display: block;
+}
